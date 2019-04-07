@@ -1,6 +1,6 @@
 package homework7;
 
-public class Shape {
+public abstract class Shape implements Drawable {
     private String color;
 
     public Shape(String color) {
@@ -12,14 +12,17 @@ public class Shape {
 
     @Override
     public String toString(){
-        return "class=...: color=...";
+        return this.getClass().getSimpleName() + ": color=" + color;
     }
 
-    public double calcArea(){
-        return 0.0;
-    }
+    abstract public double calcArea();
 
     public String getColor() {
         return color;
+    }
+
+    @Override
+    public  void draw(){
+        System.out.println(toString() + "-> area=" + this.calcArea());
     }
 }

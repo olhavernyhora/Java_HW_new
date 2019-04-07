@@ -16,7 +16,7 @@ public class Rectangle extends Shape {
 
     @Override
     public String toString(){
-        return ("class=Rectangle: color=" + super.getColor());
+        return this.getClass().getSimpleName() + ": color=" + super.getColor();
     }
 
     @Override

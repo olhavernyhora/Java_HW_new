@@ -18,7 +18,7 @@ public class Triangle extends Shape {
 
     @Override
     public String toString(){
-        return ("class=Triangle: color=" + super.getColor());
+        return this.getClass().getSimpleName() + ": color=" + super.getColor();
     }
 
     @Override
