@@ -7,31 +7,26 @@ public class User {
     private String gender;
     private boolean student;
 
-    private User(String name, int age, String gender, boolean student) {
-        this.name = name.toLowerCase();
-        this.age = age;
-        this.gender = gender.toLowerCase();
-        this.student = student;
+    public User(String name, int age, String gender, boolean student) {
+        if (userIsValid(name, age, gender)) {
+            this.name = name;
+            this.age = age;
+            this.gender = gender;
+            this.student = student;
+        } else throw new IllegalArgumentException(
+                "Please enter valid data. User age has to be between 1 and 45. " +
+                "Gender - female or male. No null values are allowed.");
     }
 
-    // Validating user before creation
-    public static User createUser(String name, int age, String gender, boolean student) {
-        if (name != null && gender != null && age >= 1 && age <= 45
-                && name.matches("[A-Za-z]+") &&
-                (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female"))) {
-            return new User(name, age, gender, student);
-        } else {
-            System.out.println("Please enter valid data. User age has to be between 1 and 45. " +
-                    "Gender - female or male. No null values are allowed.");
-        }
-        return null;
+    private boolean userIsValid(String name, int age, String gender) {
+        return validateName(name) && validateAge(age) && validateGender(gender);
     }
 
     @Override
     public int hashCode() {
         int result = 17;
         result = 31 * result + name.hashCode();
-        result = 31 * result + gender.hashCode();
+        result = 31 * result + gender.toLowerCase().hashCode();
         result = 31 * result + age;
         result = 31 * result + (student ? 1 : 0);
         return result;
@@ -52,7 +47,7 @@ public class User {
         if (!this.name.equals(other.name)) {
             return false;
         }
-        return this.gender.equals(other.gender);
+        return this.gender.equalsIgnoreCase(other.gender);
     }
 
     public String getName() {
@@ -60,24 +55,32 @@ public class User {
     }
 
     public void setName(String name) {
-        if (name != null && name.matches("[A-Za-z]+")) {
-            this.name = name.toLowerCase();
+        if (validateName(name)) {
+            this.name = name;
         } else {
             System.out.println("Please enter valid name of user");
         }
-
     }
+
+    private boolean validateName(String name) {
+        return name != null && name.matches("[A-Za-z]+");
+    }
+
 
     public int getAge() {
         return age;
     }
 
     public void setAge(int age) {
-        if (age >= 1 && age <= 45) {
+        if (validateAge(age)) {
             this.age = age;
         } else {
             System.out.println("Age has to be between 1 and 45 years.");
         }
+    }
+
+    private boolean validateAge(int age) {
+        return age >= 1 && age <= 45;
     }
 
     public String getGender() {
@@ -85,12 +88,16 @@ public class User {
     }
 
     public void setGender(String gender) {
-        if (gender != null && (gender.equalsIgnoreCase("male")
-                || gender.equalsIgnoreCase("female"))) {
-            this.gender = gender.toLowerCase();
+        if (validateGender(gender)) {
+            this.gender = gender;
         } else {
             System.out.println("Please enter valid gender - male or female");
         }
+    }
+
+    private boolean validateGender(String gender) {
+        return gender != null && (gender.equalsIgnoreCase("male")
+                || gender.equalsIgnoreCase("female"));
     }
 
     public boolean isStudent() {
@@ -105,6 +112,6 @@ public class User {
     public String toString() {
         return "User{" + "name='" + name + '\'' + ", age=" + age +
                 ", gender='" + gender + '\'' +
-                ", student=" + student + '}';
+                ", student=" + student + "}";
     }
 }
