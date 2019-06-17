@@ -15,7 +15,7 @@ public class User {
             this.student = student;
         } else throw new IllegalArgumentException(
                 "Please enter valid data. User age has to be between 1 and 45. " +
-                "Gender - female or male. No null values are allowed.");
+                        "Gender - female or male. No null values are allowed.");
     }
 
     private boolean userIsValid(String name, int age, String gender) {
